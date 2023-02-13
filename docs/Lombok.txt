@@ -1,0 +1,7 @@
+Lombok annotations
+    @Data => Génère tous les getters, toString(), hashCode(), equals() et tous les setters uniquement sur les propriétés non final
+    @AllArgsConstructor => Génère un contructeur avec tous les paramètres
+    @NoArgsConstructor => Génère un contructeur sans paramètre
+
+    !! IL FAUT UN CONSTRUCTEUR VIDE POUR HIBERNATE !!
+

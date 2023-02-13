@@ -1,0 +1,52 @@
+@RestController
+    Controller => spécifie que c'est un controller 
+    Rest => spécifie que le controlleur retourne un responseBody (json)
+
+@GetMapping("/resource")
+@PostMapping("/resource")
+@PutMapping("/resource")
+@DeleteMapping("/resource")
+
+@PathVariable
+    => Permet de mapper un paramètre d'url
+    @GetMapping("students/{id}/{first-name}/{last-name}")
+    public Student studentPathVariable(@PathVariable("id") int studentId, @PathVariable("first-name") String firstName, @PathVariable("last-name") String lastName) {
+        return new Student(studentId, firstName, lastName);
+    }
+    => Mappe 'id' avec 'studentId'
+
+@RequestParam
+    => Permet de mapper des query params
+    // http://localhost:8080/students/query?id=1&firstName=Aram
+    @GetMapping("students/query")
+    public Student getStudent(@RequestParam int id, @RequestParam String firstName) {
+        return new Student(id, firstName, "Aram");
+    }
+    "@RequestParam int id" récupère la valeur 1 de "id=1"
+
+@RequestBody 
+    => Permet de spécifier un paramètre body 
+    @PostMapping("students/create")
+    public Student createStudent(@RequestBody Student student) {
+        return student;
+    }
+
+@ResponseStatus
+    => Permet de spécifier un statut http de retourne
+    @ResponseStatus(HttpStatus.CREATED)
+
+ResponseEntity
+    Utilisé pour les réponses des endpoints
+    public ResponseEntity<Student> getStudent() {
+    }
+    Deux formes de réponse possibles :
+    return new ResponseEntity<Student>(student, HttpStatus.OK);
+    return  ResponseEntity.ok(student);
+
+@RequestMapping("resource")
+    => Permet de spécifier une url globale au controller
+    @RestController
+    @RequestMapping("students")
+    public class StudentController {}
+
+@Service => Pour les services

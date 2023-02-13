@@ -1,0 +1,23 @@
+JPA annotations
+
+@Entity => Spécifie que c'est une entité
+
+@Table => Spécifie les paramètres de la table qui sera crée
+   @Table(
+        name = "posts",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})}
+    ) 
+    On peut spécifier des champs uniques, comme "title"
+
+@Id
+
+@GeneratedValue => Spécifie comment la clé primaire va être générée
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+
+@Column => Permet de spécifier le nom de la colonne dans la table
+    @Column(name = "title")
+    Par défaut c'est le nom de la propriété qui est prise en compte
+    On peut spécifier plein de paramètres
+    @Column(name = "title", nullable = false, length = 50) ect...
