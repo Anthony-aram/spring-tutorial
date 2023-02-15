@@ -4,17 +4,16 @@ import com.example.tuto.dto.PostDto;
 import com.example.tuto.dto.PostResponse;
 import com.example.tuto.service.PostService;
 import com.example.tuto.utils.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
-    private PostService postService;
+    private final PostService postService;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -22,11 +21,11 @@ public class PostController {
 
     /**
      * Create a post
-     * @param postDto
-     * @return
+     * @param postDto New post
+     * @return Added post
      */
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto){
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
 
@@ -65,7 +64,7 @@ public class PostController {
      * @return Updated post
      */
     @PutMapping("/{id}")
-    public ResponseEntity<PostDto> updatePost(@RequestBody PostDto postDto, @PathVariable(name = "id") long id){
+    public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") long id){
 
        PostDto postResponse = postService.updatePost(postDto, id);
 
