@@ -1,7 +1,6 @@
 package com.example.tuto.service.impl;
 
 import com.example.tuto.dto.CommentDto;
-import com.example.tuto.dto.PostDto;
 import com.example.tuto.entity.Comment;
 import com.example.tuto.entity.Post;
 import com.example.tuto.exception.BlogAPIException;
@@ -9,6 +8,7 @@ import com.example.tuto.exception.ResourceNotFoundException;
 import com.example.tuto.repository.CommentRepository;
 import com.example.tuto.repository.PostRepository;
 import com.example.tuto.service.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    private CommentRepository commentRepository;
-    private PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final ModelMapper modelMapper;
 
-    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.modelMapper = modelMapper;
     }
 
     /**
@@ -57,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentDto> getCommentsByPostId(long postId) {
         List<Comment> comments = commentRepository.findByPostId(postId);
-        return comments.stream().map((comment) -> mapToDTO(comment)).collect(Collectors.toList());
+        return comments.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     /**
@@ -117,7 +119,6 @@ public class CommentServiceImpl implements CommentService {
      * Delete a comment from a post
      * @param postId Post id
      * @param commentId Comment id
-     * @return A String
      */
     @Override
     public void deleteComment(long postId, long commentId) {
@@ -143,12 +144,7 @@ public class CommentServiceImpl implements CommentService {
      * @return Comment dto
      */
     private CommentDto mapToDTO(Comment comment){
-        CommentDto commentDto = new CommentDto();
-        commentDto.setId(comment.getId());
-        commentDto.setName(comment.getName());
-        commentDto.setEmail(comment.getEmail());
-        commentDto.setBody(comment.getBody());
-        return commentDto;
+        return modelMapper.map(comment, CommentDto.class);
     }
 
     /**
@@ -157,11 +153,6 @@ public class CommentServiceImpl implements CommentService {
      * @return Comment entity
      */
     private Comment mapToEntity(CommentDto commentDto){
-        Comment comment = new Comment();
-        comment.setId(commentDto.getId());
-        comment.setName(commentDto.getName());
-        comment.setEmail(commentDto.getEmail());
-        comment.setBody(commentDto.getBody());
-        return comment;
+        return  modelMapper.map(commentDto, Comment.class);
     }
 }
