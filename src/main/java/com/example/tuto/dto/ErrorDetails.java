@@ -3,9 +3,9 @@ package com.example.tuto.dto;
 import java.util.Date;
 
 public class ErrorDetails {
-    private final Date timestamp;
-    private final String message;
-    private final String details;
+    private Date timestamp;
+    private String message;
+    private String details;
 
     public ErrorDetails(Date timestamp, String message, String details) {
         this.timestamp = timestamp;
