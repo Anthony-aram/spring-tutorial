@@ -7,6 +7,7 @@ import com.example.tuto.utils.AppConstants;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +25,7 @@ public class PostController {
      * @param postDto New post
      * @return Added post
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto){
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
@@ -63,11 +65,10 @@ public class PostController {
      * @param id Post id
      * @return Updated post
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") long id){
-
        PostDto postResponse = postService.updatePost(postDto, id);
-
        return new ResponseEntity<>(postResponse, HttpStatus.OK);
     }
 
@@ -76,11 +77,10 @@ public class PostController {
      * @param id Post id
      * @return A String
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
-
         postService.deletePostById(id);
-
         return new ResponseEntity<>("Post entity deleted successfully.", HttpStatus.OK);
     }
 }

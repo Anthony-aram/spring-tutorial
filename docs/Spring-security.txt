@@ -1,0 +1,22 @@
+Ajouter dans le POM :
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+Lancer l'appli, un mdp va être généré : 
+Using generated security password: f15a3c9b-69d0-41ec-9196-37ddad25cac9
+
+Allez sur localhost:xxxx/login pour vous authentifier. 
+
+Vous pouvez alors tester l'accès à vos routes ect... 
+
+Allez sur localhost:xxxx/logout pour vous déconnecter.
+
+On peut modifier le user et mdp et role dans application.properties : 
+# Spring security
+spring.security.user.name=anthony
+spring.security.user.password=aram
+spring.security.user.roles=ADMIN 
